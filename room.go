@@ -35,6 +35,7 @@ func main() {
 	router.Route("/room", func(r chi.Router) {
 		r.Get("/", room.GetRoom(sqllite))
 		r.Get("/create", room.CreateRoom(sqllite))
+		r.Get("/setVideo", room.SetVideo(sqllite))
 		r.Get("/ws", room.VideoController())
 	})
 	router.Route("/user", func(r chi.Router) {
@@ -43,6 +44,5 @@ func main() {
 	})
 
 	fmt.Println("Сервер запущен на http://localhost:8080")
-	fmt.Println("Открой в браузере: http://localhost:8080/video")
 	http.ListenAndServe(":8080", router)
 }

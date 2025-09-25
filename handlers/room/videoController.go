@@ -30,6 +30,7 @@ type Message struct {
 	From      *Client     `json:"-"` // не сериализуется
 	Time      float64     `json:"time,omitempty"`
 	Timestamp time.Time   `json:"timestamp"`
+	payload   string      `json:"payload"`
 }
 
 type Client struct {

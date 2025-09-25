@@ -173,6 +173,33 @@ func (db *DB) SetRoomVideo(roomID int, video string) error {
 	fmt.Printf("Видео %s установлено для комнаты %d\n", video, roomID)
 	return nil
 }
+func (db *DB) SetRoomVideoByKey(key string, video string) error {
+	
+	room, err := db.GetRoomByKey(key)
+	if err != nil {
+		return fmt.Errorf("ошибка поиска комнаты в установке видео для комнаты: %w", err)
+	}
+
+	var query string
+
+	query = "UPDATE rooms SET video = ? WHERE id = ?"
+
+	result, err := db.conn.Exec(query, video, room.ID)
+	if err != nil {
+		return fmt.Errorf("ошибка установки видео для комнаты: %w", err)
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("ошибка проверки затронутых строк: %w", err)
+	}
+	if rowsAffected == 0 {
+		return fmt.Errorf("комната с ID %d не найдена", room.ID)
+	}
+
+	fmt.Printf("Видео %s установлено для комнаты %d\n", video, room.ID)
+	return nil
+}
 
 // Вспомогательная функция для удаления дубликатов комнат
 func (db *DB) removeDuplicateRooms(rooms []Room) []Room {
