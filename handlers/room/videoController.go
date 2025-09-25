@@ -296,6 +296,7 @@ var hub = Hub{
 func VideoController() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		key := r.URL.Query().Get("key")
+		slog.Log(nil, slog.LevelInfo.Level(), "Get connection")
 		if key == "" {
 			http.Error(w, "missing 'key' query parameter", http.StatusBadRequest)
 			return
