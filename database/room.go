@@ -39,6 +39,7 @@ func (db *DB) CreateRoom() (*Room, error) {
 
 	key := rand.Text() // Предполагается, что у вас есть такая функция
 	row, err := db.conn.Exec(insertSQL, key)
+	
 	if err != nil {
 		return nil, fmt.Errorf("ошибка вставки комнаты: %w", err)
 	}

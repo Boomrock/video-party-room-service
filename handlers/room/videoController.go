@@ -13,11 +13,12 @@ import (
 )
 
 const (
-	CommandPlay  CommandType = "play"
-	CommandPause CommandType = "pause"
-	CommandSeek  CommandType = "seek"
-	CommandSync  CommandType = "sync"
-	CommandError CommandType = "error"
+	CommandPlay        CommandType = "play"
+	CommandPause       CommandType = "pause"
+	CommandSeek        CommandType = "seek"
+	CommandSync        CommandType = "sync"
+	CommandError       CommandType = "error"
+	CommandVideoChange CommandType = "change-video"
 
 	pongWait   = 30 * time.Second
 	pingPeriod = 25 * time.Second
@@ -86,7 +87,7 @@ func (c *Client) receiveHandler() {
 
 		// Валидация типа команды
 		switch msg.Type {
-		case CommandPlay, CommandPause, CommandSeek, CommandSync:
+		case CommandPlay, CommandPause, CommandSeek, CommandSync, CommandVideoChange:
 			// OK
 		default:
 			slog.Warn("unknown command type", "type", msg.Type)
@@ -296,7 +297,6 @@ var hub = Hub{
 func VideoController() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		key := r.URL.Query().Get("key")
-		slog.Log(nil, slog.LevelInfo.Level(), "Get connection")
 		if key == "" {
 			http.Error(w, "missing 'key' query parameter", http.StatusBadRequest)
 			return
