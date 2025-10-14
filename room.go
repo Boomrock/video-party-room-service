@@ -43,6 +43,6 @@ func main() {
 		r.Get("/delete", user.DeleteUser(sqllite))
 	})
 
-	fmt.Println("Сервер запущен на http://localhost:8080")
-	http.ListenAndServe(":8080", router)
+	fmt.Println("Сервер запущен на http://localhost:3000")
+	http.ListenAndServe(":3000", router)
 }
