@@ -5,7 +5,21 @@ import (
 	"database/sql"
 	"fmt"
 )
+// RoomStorage — интерфейс для работы с хранилищем комнат и пользователей.
+type RoomStorage interface {
+	CreateRoomsTables() error
 
+	CreateRoom() (*Room, error)
+	GetRoomByID(id int) (*Room, error)
+	GetRoomByKey(key string) (*Room, error)
+
+	SetRoomVideo(roomID int, video string) error
+	SetRoomVideoByKey(key string, video string) error
+
+	AddUserInRoom(userID, roomID int) error
+	RemoveUserFromRoom(userID, roomID int) error
+	GetUsersInRoom(roomID int) ([]User, error)
+}
 func (db *DB) CreateRoomsTables() error {
 	createTablesSQL := `
 	CREATE TABLE IF NOT EXISTS rooms (
